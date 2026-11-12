@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TEAM DEVELOPERS | نحول أفكارك إلى مشاريع حقيقية</title>
+<meta name="description" content="خدمات برمجة: سيرفرات ديسكورد، بوتات، ماين كرافت، ومواقع ويب.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d17; --card:#141829; --card2:#1a1f36; --text:#e8eaf6; --muted:#9aa3c7;
+  --a:#7c5cff; --b:#00d4ff; --line:rgba(255,255,255,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background:radial-gradient(600px 400px at 85% 0%,rgba(124,92,255,.25),transparent),
+             radial-gradient(500px 400px at 10% 30%,rgba(0,212,255,.15),transparent)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1050px;margin:auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);background:rgba(11,13,23,.7);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:62px}
+.logo{font-weight:800;font-size:1.15rem;letter-spacing:.5px}
+.logo span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav ul{display:flex;gap:22px;list-style:none;font-size:.95rem;color:var(--muted)}
+nav ul a:hover{color:#fff}
+.btn{display:inline-block;padding:12px 28px;border-radius:12px;font-weight:700;border:0;cursor:pointer;
+  background:linear-gradient(90deg,var(--a),var(--b));color:#fff;transition:.2s;font-family:inherit;font-size:1rem}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,92,255,.4)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.hero{text-align:center;padding:90px 0 70px}
+.hero .tag{display:inline-block;padding:6px 16px;border:1px solid var(--line);border-radius:99px;color:var(--muted);font-size:.85rem;margin-bottom:22px}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:800;line-height:1.25}
+.hero h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:560px;margin:18px auto 32px;font-size:1.1rem}
+.hero .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+section{padding:60px 0}
+h2.title{text-align:center;font-size:2rem;font-weight:800;margin-bottom:8px}
+.sub{text-align:center;color:var(--muted);margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;transition:.25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);border-color:rgba(124,92,255,.5);background:var(--card2)}
+.card .ico{font-size:2.2rem}
+.card h3{margin:10px 0 12px;font-size:1.2rem}
+.card ul{list-style:none;color:var(--muted);font-size:.95rem;flex:1}
+.card li{padding-inline-start:20px;position:relative;margin-bottom:4px}
+.card li::before{content:"✓";position:absolute;inset-inline-start:0;color:var(--b)}
+.price{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;color:var(--muted)}
+.price b{font-size:1.7rem;color:#fff}
+.price b small{font-size:1rem;color:var(--b)}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:center}
+.why .e{font-size:1.6rem}
+.notes{max-width:700px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 30px;color:var(--muted)}
+.notes li{margin:6px 0 6px 0;margin-inline-start:20px}
+.cta{text-align:center;background:linear-gradient(135deg,rgba(124,92,255,.25),rgba(0,212,255,.15));border:1px solid var(--line);border-radius:24px;padding:50px 20px}
+.cta h2{font-size:1.9rem;margin-bottom:8px}
+.cta p{color:var(--muted);margin-bottom:24px}
+footer{text-align:center;padding:30px 0;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);margin-top:40px}
+footer b{color:#fff;letter-spacing:1px}
+@media(max-width:640px){nav ul{display:none}.hero{padding:60px 0 40px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="logo">⚡ TEAM <span>DEVELOPERS</span></a>
+    <ul>
+      <li><a href="#services">الخدمات</a></li>
+      <li><a href="#why">لماذا نحن</a></li>
+      <li><a href="#notes">ملاحظات</a></li>
+      <li><a href="#contact">تواصل</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="tag">🚀 TEAM DEVELOPERS</div>
+  <h1>نحول أفكارك إلى <span>مشاريع حقيقية!</span></h1>
+  <p>بدك خدمة برمجية؟ إحنا جاهزين! ديسكورد، بوتات، ماين كرافت ومواقع ويب بأسعار مناسبة للجميع.</p>
+  <div class="actions">
+    <a href="#services" class="btn">شوف الخدمات</a>
+    <a href="#contact" class="btn ghost">اطلب الآن</a>
+  </div>
+</header>
+
+<section id="services">
+  <div class="wrap">
+    <h2 class="title">🔥 خدماتنا</h2>
+    <p class="sub">اختر الخدمة المناسبة لمشروعك</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="ico">🎮</div>
+        <h3>Discord Development</h3>
+        <ul>
+          <li>إنشاء وبرمجة سيرفرات Discord احترافية</li>
+          <li>تنظيم الرتب والصلاحيات والقنوات</li>
+          <li>أنظمة التذاكر والحماية والترحيب</li>
+        </ul>
+        <div class="price"><span>السعر</span><b><small>$</small>7</b></div>
+      </div>
+
+      <div class="card">
+        <div class="ico">🤖</div>
+        <h3>Discord Bot Development</h3>
+        <ul>
+          <li>برمجة بوتات خاصة حسب طلبك</li>
+          <li>أوامر إدارية وترفيهية</li>
+          <li>أنظمة الحماية والمراقبة والتذاكر</li>
+          <li>ربط البوت بقواعد البيانات</li>
+        </ul>
+        <div class="price"><span>السعر</span><b><small>$</small>8</b></div>
+      </div>
+
+      <div class="card">
+        <div class="ico">⛏️</div>
+        <h3>Minecraft Development</h3>
+        <ul>
+          <li>برمجة Plugins خاصة</li>
+          <li>إعداد وتطوير سيرفرات Minecraft</li>
+          <li>أنظمة الحماية والإدارة والاقتصاد</li>
+          <li>إعداد Permissions و LuckPerms</li>
+        </ul>
+        <div class="price"><span>السعر</span><b><small>$</small>10</b></div>
+      </div>
+
+      <div class="card">
+        <div class="ico">🌐</div>
+        <h3>Web Development</h3>
+        <ul>
+          <li>تصميم وبرمجة مواقع إلكترونية</li>
+          <li>صفحات شخصية ومواقع مشاريع</li>
+          <li>لوحات تحكم وتسجيل دخول</li>
+          <li>تصميم متجاوب للهاتف والكمبيوتر</li>
+        </ul>
+        <div class="price"><span>السعر</span><b><small>$</small>16</b></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <h2 class="title">💎 ليش تختار TEAM DEVELOPERS؟</h2>
+    <p class="sub">أسباب تخليك تثق فينا</p>
+    <div class="why">
+      <div><span class="e">👨‍💻</span> فريق من المبرمجين يعمل على تنفيذ المشاريع</div>
+      <div><span class="e">🚫</span> لا نعتمد على الذكاء الاصطناعي في البرمجة</div>
+      <div><span class="e">⚡</span> تنفيذ حسب المواصفات المطلوبة</div>
+      <div><span class="e">🔧</span> صيانة ودعم فني حسب الاتفاق</div>
+      <div><span class="e">🔒</span> اهتمام بالأمان والخصوصية</div>
+      <div><span class="e">💰</span> أسعار مناسبة للجميع</div>
+    </div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="wrap">
+    <h2 class="title">📌 ملاحظات</h2>
+    <p class="sub">قبل ما تطلب</p>
+    <div class="notes">
+      <ul>
+        <li>الأسعار المذكورة ثابتة للخدمات الأساسية.</li>
+        <li>المشاريع الكبيرة يتم تسعيرها حسب التفاصيل.</li>
+        <li>يتم الاتفاق على جميع المتطلبات قبل البدء.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta">
+      <h2>🔥 عندك فكرة؟ إحنا بنحولها لواقع!</h2>
+      <p>📩 للطلب والاستفسار تواصل معنا خاص DM.</p>
+      <a class="btn" href="https://discord.gg/hFAnJYXrwj" target="_blank" rel="noopener">تواصل عبر Discord</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>TEAM DEVELOPERS</b><br>
+  YOUR IDEA, OUR CODE. ⚡
+</footer>
+
+</body>
+</html>
