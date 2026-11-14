@@ -1,0 +1,3566 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070913">
+  <title>TEAM DEVELOPERS | نحول أفكارك إلى مشاريع حقيقية</title>
+  <meta name="description" content="خدمات برمجة احترافية: سيرفرات ديسكورد، بوتات، ماين كرافت، ومواقع ويب بأسعار مناسبة. تواصل معنا عبر واتساب أو ديسكورد.">
+  <meta property="og:title" content="TEAM DEVELOPERS | YOUR IDEA, OUR CODE">
+  <meta property="og:description" content="نحول أفكارك إلى مشاريع حقيقية: Discord، Bots، Minecraft، Web.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       1. DESIGN TOKENS
+       ===================================================== */
+    :root {
+      --bg: #060814;
+      --bg-soft: #0b0f22;
+      --card-bg: rgba(18, 22, 42, 0.62);
+      --card-bg-solid: #11152b;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(124, 92, 255, 0.55);
+
+      --text: #f2f4ff;
+      --muted: #9aa3c7;
+      --faint: #6b7399;
+
+      --primary: #7c5cff;
+      --primary-2: #9b82ff;
+      --secondary: #00d4ff;
+      --success: #25d366;
+      --success-dark: #128c7e;
+      --warning: #ffb547;
+      --danger: #ff5c7a;
+
+      --accent-glow: rgba(124, 92, 255, 0.18);
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --gradient-warm: linear-gradient(135deg, #ff7ac6, #7c5cff 55%, #00d4ff);
+      --gradient-wa: linear-gradient(135deg, #25d366, #128c7e);
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --radius-xl: 30px;
+
+      --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.35);
+      --shadow-glow: 0 10px 40px rgba(124, 92, 255, 0.35);
+
+      --font-main: 'Cairo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --nav-h: 76px;
+    }
+
+    /* =====================================================
+       2. RESET & BASE
+       ===================================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-h) + 12px);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.loading {
+      overflow: hidden;
+    }
+
+    img,
+    svg,
+    canvas {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    ::selection {
+      background: rgba(124, 92, 255, 0.45);
+      color: #fff;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--primary), var(--secondary));
+      border-radius: 10px;
+      border: 2px solid var(--bg);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    /* Layered ambient background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background:
+        radial-gradient(circle at 85% 5%, rgba(124, 92, 255, 0.22), transparent 45%),
+        radial-gradient(circle at 8% 42%, rgba(0, 212, 255, 0.13), transparent 40%),
+        radial-gradient(circle at 55% 85%, rgba(124, 92, 255, 0.12), transparent 50%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
+      pointer-events: none;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .grad-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .grad-text-warm {
+      background: var(--gradient-warm);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* =====================================================
+       3. PRELOADER
+       ===================================================== */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+    }
+
+    #preloader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      font-size: 1.7rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .loader-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-top-color: var(--primary);
+      border-left-color: var(--secondary);
+      animation: spin 0.9s linear infinite;
+    }
+
+    .loader-bar {
+      width: 190px;
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .loader-bar i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--gradient);
+      border-radius: 99px;
+      animation: loadfill 1.3s var(--ease) forwards;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes loadfill {
+      to { width: 100%; }
+    }
+
+    /* =====================================================
+       4. GLOBAL FX (progress, cursor glow, particles)
+       ===================================================== */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      inset-inline: 0;
+      height: 3px;
+      z-index: 300;
+      background: transparent;
+    }
+
+    #scroll-progress i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--gradient);
+      box-shadow: 0 0 12px var(--primary);
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    #cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 420px;
+      height: 420px;
+      margin: -210px 0 0 -210px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 92, 255, 0.14), transparent 65%);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s var(--ease);
+      will-change: transform;
+    }
+
+    /* =====================================================
+       5. NAVIGATION
+       ===================================================== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      background: rgba(6, 8, 20, 0.7);
+      border-bottom: 1px solid var(--card-border);
+      transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+
+    nav.scrolled {
+      background: rgba(6, 8, 20, 0.92);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: var(--nav-h);
+      gap: 20px;
+    }
+
+    .logo {
+      font-weight: 900;
+      font-size: 1.28rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      box-shadow: 0 6px 20px rgba(124, 92, 255, 0.45);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: color 0.25s var(--ease), background 0.25s var(--ease);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 3px;
+      inset-inline: 50% 50%;
+      height: 2px;
+      background: var(--gradient);
+      border-radius: 2px;
+      transition: inset-inline 0.3s var(--ease);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-links a.active::after,
+    .nav-links a:hover::after {
+      inset-inline: 14px 14px;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-wa {
+      padding: 9px 20px;
+      font-size: 0.92rem;
+      border-radius: 12px;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .menu-toggle span {
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+    }
+
+    .menu-toggle.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* =====================================================
+       6. BUTTONS
+       ===================================================== */
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 14px 32px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      background: var(--gradient);
+      color: #fff;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+      font-size: 1rem;
+      box-shadow: 0 6px 22px rgba(124, 92, 255, 0.3);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s var(--ease);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn:hover::after {
+      left: 140%;
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .btn.ghost {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .btn.ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.22);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn.wa {
+      background: var(--gradient-wa);
+      box-shadow: 0 6px 22px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn.wa:hover {
+      box-shadow: 0 10px 36px rgba(37, 211, 102, 0.5);
+    }
+
+    .btn.discord {
+      background: linear-gradient(135deg, #5865f2, #7983f5);
+      box-shadow: 0 6px 22px rgba(88, 101, 242, 0.3);
+    }
+
+    .btn.discord:hover {
+      box-shadow: 0 10px 36px rgba(88, 101, 242, 0.5);
+    }
+
+    .btn.sm {
+      padding: 10px 20px;
+      font-size: 0.92rem;
+      border-radius: 12px;
+    }
+
+    .btn.block {
+      width: 100%;
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* =====================================================
+       7. HERO
+       ===================================================== */
+    .hero {
+      padding: 90px 0 70px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 50px;
+      align-items: center;
+      max-width: 840px;
+      margin-inline: auto;
+    }
+
+    .hero-copy {
+      text-align: center;
+    }
+
+    .hero-copy p {
+      margin-inline: auto;
+    }
+
+    .hero .actions {
+      justify-content: center;
+    }
+
+    .hero-stats {
+      margin-inline: auto;
+    }
+
+    .hero-copy .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 18px;
+      background: rgba(124, 92, 255, 0.1);
+      border: 1px solid rgba(124, 92, 255, 0.32);
+      border-radius: 99px;
+      color: var(--secondary);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 26px;
+    }
+
+    .tag .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.3rem, 5.2vw, 4rem);
+      font-weight: 900;
+      line-height: 1.22;
+      margin-bottom: 20px;
+    }
+
+    .typing-line {
+      display: block;
+      min-height: 1.3em;
+    }
+
+    .caret {
+      display: inline-block;
+      width: 3px;
+      height: 0.95em;
+      margin-inline-start: 4px;
+      background: var(--secondary);
+      vertical-align: -0.1em;
+      animation: blink 0.9s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .hero-copy p {
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 34px;
+      font-size: 1.12rem;
+    }
+
+    .hero .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 520px;
+    }
+
+    .stat {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .stat span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* Hero visual: code window */
+    .hero-visual {
+      position: relative;
+      perspective: 1100px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: -30px;
+      background: radial-gradient(circle, rgba(124, 92, 255, 0.35), transparent 65%);
+      filter: blur(30px);
+      z-index: -1;
+    }
+
+    .code-window {
+      direction: ltr;
+      background: rgba(13, 16, 33, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md), 0 0 60px rgba(124, 92, 255, 0.18);
+      overflow: hidden;
+      transform: rotateY(-8deg) rotateX(4deg);
+      transition: transform 0.6s var(--ease-out);
+      animation: floaty 6s ease-in-out infinite;
+    }
+
+    .hero-visual:hover .code-window {
+      transform: rotateY(0) rotateX(0);
+    }
+
+    @keyframes floaty {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -12px; }
+    }
+
+    .code-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .code-bar i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-bar i:nth-child(1) { background: #ff5f57; }
+    .code-bar i:nth-child(2) { background: #febc2e; }
+    .code-bar i:nth-child(3) { background: #28c840; }
+
+    .code-bar span {
+      margin-inline-start: auto;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--faint);
+    }
+
+    .code-body {
+      padding: 22px 22px 26px;
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      line-height: 1.85;
+      color: #c9d1ff;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .code-body .k { color: #c792ea; }
+    .code-body .f { color: #82aaff; }
+    .code-body .s { color: #c3e88d; }
+    .code-body .c { color: #5c6590; font-style: italic; }
+    .code-body .n { color: #f78c6c; }
+    .code-body .p { color: #89ddff; }
+
+    .float-chip {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(17, 21, 43, 0.92);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .float-chip.c1 {
+      top: -18px;
+      inset-inline-start: -14px;
+      animation: floaty 5s ease-in-out infinite;
+    }
+
+    .float-chip.c2 {
+      bottom: 30px;
+      inset-inline-end: -18px;
+      animation: floaty 7s ease-in-out infinite reverse;
+    }
+
+    .float-chip.c3 {
+      bottom: -22px;
+      inset-inline-start: 30px;
+      animation: floaty 6s ease-in-out infinite;
+    }
+
+    /* =====================================================
+       8. MARQUEE (tech stack)
+       ===================================================== */
+    .marquee-sec {
+      padding: 26px 0;
+      border-block: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.015);
+      overflow: hidden;
+    }
+
+    .marquee {
+      display: flex;
+      width: max-content;
+      animation: scroll-x 32s linear infinite;
+      direction: ltr;
+    }
+
+    .marquee:hover {
+      animation-play-state: paused;
+    }
+
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-inline-end: 14px;
+    }
+
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 22px;
+      border: 1px solid var(--card-border);
+      border-radius: 99px;
+      background: var(--card-bg);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+
+    .tech-pill:hover {
+      color: #fff;
+      border-color: var(--card-hover-border);
+    }
+
+    @keyframes scroll-x {
+      to { transform: translateX(-50%); }
+    }
+
+    /* =====================================================
+       9. SECTION SHARED
+       ===================================================== */
+    section {
+      padding: 90px 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 5px 16px;
+      margin-bottom: 14px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--primary-2);
+      background: rgba(124, 92, 255, 0.1);
+      border: 1px solid rgba(124, 92, 255, 0.25);
+    }
+
+    h2.title {
+      font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 580px;
+      margin-inline: auto;
+    }
+
+    /* =====================================================
+       10. SERVICES
+       ===================================================== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 30px 28px;
+      transition: transform 0.25s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(124, 92, 255, 0.14), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      border-color: var(--card-hover-border);
+      box-shadow: 0 16px 44px var(--accent-glow);
+    }
+
+    .card:hover::before,
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card .ico {
+      font-size: 2rem;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      transition: transform 0.4s var(--ease-out), background 0.3s var(--ease);
+    }
+
+    .card:hover .ico {
+      transform: scale(1.1) rotate(-6deg);
+      background: rgba(124, 92, 255, 0.18);
+    }
+
+    .card h3 {
+      margin-bottom: 14px;
+      font-size: 1.22rem;
+      font-weight: 800;
+      direction: ltr;
+      text-align: start;
+    }
+
+    html[dir="rtl"] .card h3 {
+      text-align: right;
+    }
+
+    .card ul {
+      color: var(--muted);
+      font-size: 0.95rem;
+      flex: 1;
+      margin-bottom: 22px;
+    }
+
+    .card li {
+      padding-inline-start: 26px;
+      position: relative;
+      margin-bottom: 9px;
+    }
+
+    .card li::before {
+      content: "✓";
+      position: absolute;
+      inset-inline-start: 0;
+      color: var(--secondary);
+      font-weight: 800;
+    }
+
+    .price {
+      padding-top: 18px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .price span {
+      font-size: 0.9rem;
+    }
+
+    .price b {
+      font-size: 1.9rem;
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .price b small {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      margin-inline-end: 2px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card-actions .btn {
+      flex: 1;
+    }
+
+    /* =====================================================
+       11. PROCESS TIMELINE
+       ===================================================== */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      position: relative;
+    }
+
+    .steps::before {
+      content: "";
+      position: absolute;
+      top: 38px;
+      inset-inline: 12% 12%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0.35;
+    }
+
+    .step {
+      position: relative;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .step-num {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: var(--card-bg-solid);
+      border: 2px solid rgba(124, 92, 255, 0.5);
+      display: grid;
+      place-items: center;
+      font-size: 1.7rem;
+      font-weight: 900;
+      box-shadow: 0 0 0 8px var(--bg), 0 10px 30px rgba(124, 92, 255, 0.25);
+      transition: transform 0.35s var(--ease-out), border-color 0.3s var(--ease);
+    }
+
+    .step:hover .step-num {
+      transform: scale(1.1);
+      border-color: var(--secondary);
+    }
+
+    .step h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      font-size: 0.93rem;
+      color: var(--muted);
+    }
+
+    /* =====================================================
+       12. PRICE CALCULATOR
+       ===================================================== */
+    .calc {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .calc-panel,
+    .calc-summary {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .calc-summary {
+      position: sticky;
+      top: calc(var(--nav-h) + 20px);
+      border-color: rgba(124, 92, 255, 0.35);
+      box-shadow: 0 16px 50px rgba(124, 92, 255, 0.14);
+    }
+
+    .calc-label {
+      font-weight: 800;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .calc-label i {
+      font-style: normal;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--gradient);
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    .calc-block + .calc-block {
+      margin-top: 28px;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .choice {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.25s var(--ease);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .choice-box .em {
+      font-size: 1.4rem;
+    }
+
+    .choice-box small {
+      display: block;
+      font-weight: 500;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .choice:hover .choice-box {
+      border-color: rgba(124, 92, 255, 0.4);
+      background: rgba(124, 92, 255, 0.05);
+    }
+
+    .choice input:checked + .choice-box {
+      border-color: var(--primary);
+      background: rgba(124, 92, 255, 0.14);
+      box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.18);
+    }
+
+    .choice input:focus-visible + .choice-box {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+
+    .addons {
+      display: grid;
+      gap: 10px;
+    }
+
+    .addon {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .addon:hover {
+      border-color: rgba(124, 92, 255, 0.4);
+    }
+
+    .addon input {
+      accent-color: var(--primary);
+      width: 19px;
+      height: 19px;
+      cursor: pointer;
+    }
+
+    .addon .addon-price {
+      margin-inline-start: auto;
+      color: var(--secondary);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      direction: ltr;
+    }
+
+    .addon.checked {
+      border-color: var(--primary);
+      background: rgba(124, 92, 255, 0.1);
+    }
+
+    .summary-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      margin-bottom: 18px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-size: 0.93rem;
+      color: var(--muted);
+      min-height: 60px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--card-border);
+    }
+
+    .summary-row b {
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      direction: ltr;
+    }
+
+    .summary-total {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.16), rgba(0, 212, 255, 0.1));
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .summary-total span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .summary-total b {
+      display: block;
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: 1.2;
+      direction: ltr;
+    }
+
+    .summary-note {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--faint);
+      text-align: center;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .toggle-row p {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .toggle-row small {
+      display: block;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    .switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .switch i {
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.12);
+      transition: background 0.3s var(--ease);
+    }
+
+    .switch i::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      inset-inline-start: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      transition: inset-inline-start 0.3s var(--ease);
+    }
+
+    .switch input:checked + i {
+      background: var(--primary);
+    }
+
+    .switch input:checked + i::after {
+      inset-inline-start: 27px;
+    }
+
+    /* =====================================================
+       13. WHY US
+       ===================================================== */
+    .why {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .why-item {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 22px 24px;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+
+    .why-item:hover {
+      transform: translateY(-5px);
+      border-color: rgba(124, 92, 255, 0.4);
+      box-shadow: 0 12px 30px var(--accent-glow);
+    }
+
+    .why-item .e {
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .why-text {
+      font-weight: 600;
+      font-size: 1.02rem;
+    }
+
+    /* =====================================================
+       14. FAQ
+       ===================================================== */
+    .faq-list {
+      max-width: 820px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.3s var(--ease);
+    }
+
+    .faq-item.open {
+      border-color: rgba(124, 92, 255, 0.45);
+    }
+
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      text-align: start;
+      font-weight: 700;
+      font-size: 1.04rem;
+    }
+
+    .faq-q .plus {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(124, 92, 255, 0.14);
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      color: var(--primary-2);
+      transition: transform 0.35s var(--ease), background 0.3s var(--ease);
+    }
+
+    .faq-item.open .plus {
+      transform: rotate(45deg);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s var(--ease);
+    }
+
+    .faq-a p {
+      padding: 0 24px 22px;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    /* =====================================================
+       15. NOTES
+       ===================================================== */
+    .notes-box {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-inline-start: 4px solid var(--warning);
+      border-radius: var(--radius-lg);
+      padding: 30px 36px;
+      color: var(--muted);
+    }
+
+    .notes-box li {
+      position: relative;
+      padding-inline-start: 28px;
+      margin-bottom: 14px;
+      font-size: 1.02rem;
+    }
+
+    .notes-box li:last-child {
+      margin-bottom: 0;
+    }
+
+    .notes-box li::before {
+      content: "⚠";
+      color: var(--warning);
+      position: absolute;
+      inset-inline-start: 0;
+      font-size: 1rem;
+    }
+
+    /* =====================================================
+       16. ORDER FORM
+       ===================================================== */
+    .order {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .order-info,
+    .order-form {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 34px 30px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .order-info {
+      background:
+        linear-gradient(160deg, rgba(124, 92, 255, 0.16), rgba(0, 212, 255, 0.06)),
+        var(--card-bg);
+      border-color: rgba(124, 92, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .order-info h3 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .order-info > p {
+      color: var(--muted);
+    }
+
+    .contact-line {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+    }
+
+    a.contact-line:hover {
+      border-color: rgba(124, 92, 255, 0.5);
+      transform: translateX(-4px);
+    }
+
+    .contact-line .ci {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .ci.wa-bg { background: rgba(37, 211, 102, 0.18); }
+    .ci.dc-bg { background: rgba(88, 101, 242, 0.2); }
+    .ci.tm-bg { background: rgba(255, 181, 71, 0.16); }
+
+    .contact-line b {
+      display: block;
+      font-size: 0.98rem;
+    }
+
+    .contact-line small {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .contact-line .num {
+      direction: ltr;
+      unicode-bidi: embed;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+    }
+
+    .copy-btn {
+      margin-inline-start: auto;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 7px 13px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.25s var(--ease);
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.035);
+      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .field select option {
+      background: #11152b;
+      color: var(--text);
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--faint);
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(124, 92, 255, 0.06);
+      box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.15);
+    }
+
+    .field.invalid input,
+    .field.invalid textarea,
+    .field.invalid select {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 4px rgba(255, 92, 122, 0.12);
+    }
+
+    .field .err {
+      display: none;
+      color: var(--danger);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .field.invalid .err {
+      display: block;
+    }
+
+    .form-foot {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .form-foot small {
+      color: var(--faint);
+      font-size: 0.82rem;
+    }
+
+    /* =====================================================
+       17. CTA
+       ===================================================== */
+    .cta {
+      text-align: center;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(124, 92, 255, 0.28), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(0, 212, 255, 0.2), transparent 55%),
+        rgba(14, 18, 38, 0.8);
+      border: 1px solid rgba(124, 92, 255, 0.35);
+      border-radius: var(--radius-xl);
+      padding: 70px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: "</>";
+      position: absolute;
+      top: -30px;
+      inset-inline-start: 20px;
+      font-family: var(--font-mono);
+      font-size: 9rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.03);
+      direction: ltr;
+      pointer-events: none;
+    }
+
+    .cta h2 {
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      margin-bottom: 14px;
+      font-weight: 900;
+      position: relative;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 1.1rem;
+      position: relative;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* =====================================================
+       18. FOOTER
+       ===================================================== */
+    footer {
+      padding: 60px 0 30px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      border-top: 1px solid var(--card-border);
+      margin-top: 40px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .foot-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .foot-brand p {
+      margin-top: 14px;
+      max-width: 340px;
+    }
+
+    .foot-col h5 {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .foot-col li {
+      margin-bottom: 10px;
+    }
+
+    .foot-col a {
+      transition: color 0.25s var(--ease), padding 0.25s var(--ease);
+    }
+
+    .foot-col a:hover {
+      color: #fff;
+      padding-inline-start: 6px;
+    }
+
+    .foot-bottom {
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+    }
+
+    .foot-bottom b {
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    /* =====================================================
+       19. FLOATING ACTIONS & TOAST
+       ===================================================== */
+    .fab-wa {
+      position: fixed;
+      bottom: 24px;
+      inset-inline-start: 24px;
+      z-index: 150;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: var(--gradient-wa);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45);
+      transition: transform 0.3s var(--ease-out);
+    }
+
+    .fab-wa::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--success);
+      z-index: -1;
+      animation: ring 2.4s ease-out infinite;
+    }
+
+    .fab-wa:hover {
+      transform: scale(1.1) rotate(-8deg);
+    }
+
+    .fab-wa svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+
+    @keyframes ring {
+      0% { transform: scale(1); opacity: 0.55; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    .fab-top {
+      position: fixed;
+      bottom: 24px;
+      inset-inline-end: 24px;
+      z-index: 150;
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      background: rgba(17, 21, 43, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(14px);
+      transition: all 0.35s var(--ease);
+    }
+
+    .fab-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .fab-top:hover {
+      border-color: var(--primary);
+      background: rgba(124, 92, 255, 0.25);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      inset-inline-start: 50%;
+      transform: translate(50%, 30px);
+      z-index: 400;
+      padding: 13px 24px;
+      border-radius: 14px;
+      background: rgba(17, 21, 43, 0.96);
+      border: 1px solid rgba(124, 92, 255, 0.5);
+      box-shadow: var(--shadow-md);
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s var(--ease-out);
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(50%, 0);
+    }
+
+    /* =====================================================
+       20. REVEAL ANIMATIONS
+       ===================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+      transition-delay: var(--d, 0s);
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal.from-side {
+      transform: translateX(-40px);
+    }
+
+    .reveal.from-side.in {
+      transform: translateX(0);
+    }
+
+    /* =====================================================
+       21. RESPONSIVE
+       ===================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy p {
+        margin-inline: auto;
+      }
+
+      .hero .actions {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        margin-inline: auto;
+      }
+
+      .hero-visual {
+        max-width: 560px;
+        margin-inline: auto;
+        width: 100%;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 40px;
+      }
+
+      .steps::before {
+        display: none;
+      }
+
+      .calc {
+        grid-template-columns: 1fr;
+      }
+
+      .calc-summary {
+        position: static;
+      }
+
+      .order {
+        grid-template-columns: 1fr;
+      }
+
+      .foot-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .foot-brand {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-wa {
+        display: none;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: var(--nav-h);
+        inset-inline: 0;
+        height: calc(100vh - var(--nav-h));
+        background: rgba(6, 8, 20, 0.97);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        font-size: 1.3rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-16px);
+        transition: all 0.35s var(--ease);
+      }
+
+      .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        padding: 12px 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 0 18px;
+      }
+
+      section {
+        padding: 60px 0;
+      }
+
+      .hero {
+        padding: 56px 0 44px;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat {
+        padding: 12px 10px;
+        text-align: center;
+      }
+
+      .stat b {
+        font-size: 1.35rem;
+      }
+
+      .section-header {
+        margin-bottom: 38px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calc-panel,
+      .calc-summary,
+      .order-info,
+      .order-form {
+        padding: 24px 20px;
+      }
+
+      .code-window {
+        transform: none;
+      }
+
+      .code-body {
+        font-size: 0.74rem;
+        padding: 18px 14px;
+      }
+
+      .float-chip {
+        display: none;
+      }
+
+      .foot-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .foot-bottom {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .cta {
+        padding: 50px 20px;
+      }
+
+      .fab-wa {
+        width: 56px;
+        height: 56px;
+        bottom: 18px;
+        inset-inline-start: 18px;
+      }
+
+      .fab-top {
+        bottom: 18px;
+        inset-inline-end: 18px;
+      }
+
+      .card-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (hover: none) {
+      #cursor-glow {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body class="loading">
+
+  <!-- SVG sprite (WhatsApp, Discord icons) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-wa" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </symbol>
+      <symbol id="i-discord" viewBox="0 0 24 24">
+        <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Preloader -->
+  <div id="preloader" aria-hidden="true">
+    <div class="loader-logo">⚡ TEAM <span class="grad-text">DEVELOPERS</span></div>
+    <div class="loader-ring"></div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+
+  <!-- Global FX -->
+  <div id="scroll-progress"><i></i></div>
+  <canvas id="particles"></canvas>
+  <div id="cursor-glow"></div>
+
+  <!-- =====================================================
+       NAVIGATION
+       ===================================================== -->
+  <nav id="navbar">
+    <div class="wrap">
+      <a href="#top" class="logo" aria-label="TEAM DEVELOPERS">
+        <span class="logo-mark">⚡</span>
+        <span>TEAM <span class="grad-text">DEVELOPERS</span></span>
+      </a>
+
+      <ul class="nav-links" id="nav-list">
+        <li><a href="#top" data-spy="top">الرئيسية</a></li>
+        <li><a href="#services" data-spy="services">الخدمات</a></li>
+        <li><a href="#process" data-spy="process">آلية العمل</a></li>
+        <li><a href="#calculator" data-spy="calculator">حاسبة السعر</a></li>
+        <li><a href="#why" data-spy="why">لماذا نحن</a></li>
+        <li><a href="#faq" data-spy="faq">الأسئلة</a></li>
+        <li><a href="#contact" data-spy="contact">تواصل معنا</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a class="btn wa nav-wa" data-wa href="https://wa.me/972595706289" target="_blank" rel="noopener">
+          <svg><use href="#i-wa"/></svg>
+          واتساب
+        </a>
+        <button class="menu-toggle" id="mobile-menu" aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav-list">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+  <header class="hero wrap" id="top">
+    <div class="hero-grid">
+
+      <div class="hero-copy">
+        <div class="tag reveal"><span class="dot"></span> TEAM DEVELOPERS · متاحون لاستقبال الطلبات</div>
+
+        <h1 class="reveal" style="--d:.08s">
+          نحول أفكارك إلى
+          <span class="typing-line grad-text-warm"><span id="typed"></span><span class="caret"></span></span>
+        </h1>
+
+        <p class="reveal" style="--d:.16s">
+          هل تحتاج إلى خدمات برمجية احترافية؟ نحن في الخدمة! تطوير سيرفرات ديسكورد، بوتات خاصة، سيرفرات ماين كرافت، ومواقع ويب عصرية بأسعار تنافسية.
+        </p>
+
+        <div class="actions reveal" style="--d:.24s">
+          <a href="#calculator" class="btn">احسب سعر مشروعك</a>
+          <a class="btn wa" data-wa href="https://wa.me/972595706289" target="_blank" rel="noopener">
+            <svg><use href="#i-wa"/></svg>
+            كلمنا على واتساب
+          </a>
+          <a href="#services" class="btn ghost">استعرض الخدمات</a>
+        </div>
+
+        <div class="hero-stats reveal" style="--d:.32s">
+          <div class="stat">
+            <b class="grad-text"><span data-count="4">0</span></b>
+            <span>تخصصات برمجية</span>
+          </div>
+          <div class="stat">
+            <b class="grad-text">$<span data-count="15">0</span></b>
+            <span>أسعار تبدأ من</span>
+          </div>
+          <div class="stat">
+            <b class="grad-text"><span data-count="100">0</span>%</b>
+            <span>كود نظيف ومكتوب يدوياً</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =====================================================
+       TECH MARQUEE
+       ===================================================== -->
+  <div class="marquee-sec" aria-label="التقنيات التي نعمل بها">
+    <div class="marquee">
+      <div class="marquee-group">
+        <span class="tech-pill">⚙️ Node.js</span>
+        <span class="tech-pill">🐍 Python</span>
+        <span class="tech-pill">🤖 discord.js</span>
+        <span class="tech-pill">☕ Java</span>
+        <span class="tech-pill">⛏️ Spigot / Paper</span>
+        <span class="tech-pill">🔐 LuckPerms</span>
+        <span class="tech-pill">🗄️ MySQL</span>
+        <span class="tech-pill">🍃 MongoDB</span>
+        <span class="tech-pill">🌐 HTML5</span>
+        <span class="tech-pill">🎨 CSS3</span>
+        <span class="tech-pill">⚡ JavaScript</span>
+        <span class="tech-pill">🔌 REST API</span>
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <span class="tech-pill">⚙️ Node.js</span>
+        <span class="tech-pill">🐍 Python</span>
+        <span class="tech-pill">🤖 discord.js</span>
+        <span class="tech-pill">☕ Java</span>
+        <span class="tech-pill">⛏️ Spigot / Paper</span>
+        <span class="tech-pill">🔐 LuckPerms</span>
+        <span class="tech-pill">🗄️ MySQL</span>
+        <span class="tech-pill">🍃 MongoDB</span>
+        <span class="tech-pill">🌐 HTML5</span>
+        <span class="tech-pill">🎨 CSS3</span>
+        <span class="tech-pill">⚡ JavaScript</span>
+        <span class="tech-pill">🔌 REST API</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       SERVICES
+       ===================================================== -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">SERVICES</span>
+        <h2 class="title">🔥 خدماتنا <span class="grad-text">البرمجية</span></h2>
+        <p class="sub">اختر الخدمة المناسبة لمشروعك واجلس مستريحاً</p>
+      </div>
+
+      <div class="grid">
+
+        <div class="card tilt reveal" style="--d:0s">
+          <div class="ico">🎮</div>
+          <h3>Discord Development</h3>
+          <ul>
+            <li>إنشاء وبرمجة سيرفرات Discord احترافية</li>
+            <li>تنظيم الرتب والصلاحيات والقنوات بشكل دقيق</li>
+            <li>إعداد أنظمة التذاكر، الحماية، والترحيب</li>
+          </ul>
+          <div class="price">
+            <span>يبدأ من</span>
+            <b><small>$</small>15</b>
+          </div>
+          <div class="card-actions">
+            <a class="btn wa sm" data-wa-service="Discord Development" href="https://wa.me/972595706289" target="_blank" rel="noopener">
+              <svg><use href="#i-wa"/></svg> اطلب الآن
+            </a>
+            <a class="btn ghost sm" href="#calculator" data-pick="discord">احسب السعر</a>
+          </div>
+        </div>
+
+        <div class="card tilt reveal" style="--d:.08s">
+          <div class="ico">🤖</div>
+          <h3>Discord Bot Development</h3>
+          <ul>
+            <li>برمجة بوتات خاصة ومخصصة حسب طلبك</li>
+            <li>أوامر إدارية، ترفيهية، وأنظمة اقتصادية</li>
+            <li>أنظمة حماية متقدمة ومراقبة مستمرة</li>
+            <li>ربط كامل مع قواعد البيانات (Databases)</li>
+          </ul>
+          <div class="price">
+            <span>يبدأ من</span>
+            <b><small>$</small>20</b>
+          </div>
+          <div class="card-actions">
+            <a class="btn wa sm" data-wa-service="Discord Bot Development" href="https://wa.me/972595706289" target="_blank" rel="noopener">
+              <svg><use href="#i-wa"/></svg> اطلب الآن
+            </a>
+            <a class="btn ghost sm" href="#calculator" data-pick="bot">احسب السعر</a>
+          </div>
+        </div>
+
+        <div class="card tilt reveal" style="--d:.16s">
+          <div class="ico">⛏️</div>
+          <h3>Minecraft Development</h3>
+          <ul>
+            <li>برمجة وتطوير Plugins خاصة</li>
+            <li>إعداد وتجهيز سيرفرات Minecraft من الصفر</li>
+            <li>أنظمة إدارية، اقتصادية، وحماية كاملة</li>
+            <li>ضبط الصلاحيات المتقدمة LuckPerms</li>
+          </ul>
+          <div class="price">
+            <span>يبدأ من</span>
+            <b><small>$</small>25</b>
+          </div>
+          <div class="card-actions">
+            <a class="btn wa sm" data-wa-service="Minecraft Development" href="https://wa.me/972595706289" target="_blank" rel="noopener">
+              <svg><use href="#i-wa"/></svg> اطلب الآن
+            </a>
+            <a class="btn ghost sm" href="#calculator" data-pick="minecraft">احسب السعر</a>
+          </div>
+        </div>
+
+        <div class="card tilt reveal" style="--d:.24s">
+          <div class="ico">🌐</div>
+          <h3>Web Development</h3>
+          <ul>
+            <li>تصميم وبرمجة مواقع إلكترونية عصرية</li>
+            <li>صفحات تعريفية ومواقع للمشاريع</li>
+            <li>لوحات تحكم وأنظمة تسجيل دخول</li>
+            <li>تصميم متجاوب وسريع لجميع الأجهزة</li>
+          </ul>
+          <div class="price">
+            <span>يبدأ من</span>
+            <b><small>$</small>40</b>
+          </div>
+          <div class="card-actions">
+            <a class="btn wa sm" data-wa-service="Web Development" href="https://wa.me/972595706289" target="_blank" rel="noopener">
+              <svg><use href="#i-wa"/></svg> اطلب الآن
+            </a>
+            <a class="btn ghost sm" href="#calculator" data-pick="web">احسب السعر</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PROCESS
+       ===================================================== -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">HOW WE WORK</span>
+        <h2 class="title">🧭 كيف نشتغل <span class="grad-text">معك؟</span></h2>
+        <p class="sub">أربع خطوات واضحة من الفكرة إلى التسليم</p>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal" style="--d:0s">
+          <div class="step-num grad-text">1</div>
+          <h4>تواصل معنا</h4>
+          <p>أرسل فكرتك عبر واتساب أو ديسكورد وأخبرنا بما تحتاجه.</p>
+        </div>
+        <div class="step reveal" style="--d:.1s">
+          <div class="step-num grad-text">2</div>
+          <h4>اتفاق وتوثيق</h4>
+          <p>نوثق كل المتطلبات والميزات والسعر قبل البدء بأي سطر كود.</p>
+        </div>
+        <div class="step reveal" style="--d:.2s">
+          <div class="step-num grad-text">3</div>
+          <h4>تنفيذ وبرمجة</h4>
+          <p>نبرمج مشروعك بكود نظيف حسب المواصفات المتفق عليها.</p>
+        </div>
+        <div class="step reveal" style="--d:.3s">
+          <div class="step-num grad-text">4</div>
+          <h4>تسليم ودعم</h4>
+          <p>نسلمك المشروع جاهزاً ونبقى معك بالصيانة والدعم الفني.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PRICE CALCULATOR
+       ===================================================== -->
+  <section id="calculator">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">PRICE ESTIMATOR</span>
+        <h2 class="title">🧮 احسب <span class="grad-text">تكلفة مشروعك</span></h2>
+        <p class="sub">اختر الخدمة والميزات وسنعطيك تقديراً مبدئياً، والسعر النهائي يتحدد بعد الاتفاق على التفاصيل</p>
+      </div>
+
+      <div class="calc">
+
+        <div class="calc-panel reveal">
+
+          <div class="calc-block">
+            <div class="calc-label"><i>1</i> اختر نوع الخدمة</div>
+            <div class="choice-grid" id="svc-choices">
+              <label class="choice">
+                <input type="radio" name="svc" value="discord" checked>
+                <span class="choice-box"><span class="em">🎮</span><span>سيرفر Discord<small>من $15</small></span></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="svc" value="bot">
+                <span class="choice-box"><span class="em">🤖</span><span>بوت Discord<small>من $20</small></span></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="svc" value="minecraft">
+                <span class="choice-box"><span class="em">⛏️</span><span>Minecraft<small>من $25</small></span></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="svc" value="web">
+                <span class="choice-box"><span class="em">🌐</span><span>موقع ويب<small>من $40</small></span></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="calc-block">
+            <div class="calc-label"><i>2</i> اختر الميزات الإضافية</div>
+            <div class="addons" id="addons"></div>
+          </div>
+
+          <div class="calc-block">
+            <div class="calc-label"><i>3</i> سرعة التسليم</div>
+            <div class="toggle-row">
+              <div>
+                <p>⚡ تسليم عاجل</p>
+                <small>أولوية في التنفيذ مقابل زيادة 20% على السعر</small>
+              </div>
+              <label class="switch" aria-label="تسليم عاجل">
+                <input type="checkbox" id="rush">
+                <i></i>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="calc-summary reveal" style="--d:.12s">
+          <div class="summary-title">🧾 ملخص الطلب</div>
+          <div class="summary-list" id="summary-list"></div>
+          <div class="summary-total">
+            <span>التقدير المبدئي يبدأ من</span>
+            <b id="total">$15</b>
+          </div>
+          <a class="btn wa block" id="calc-send" href="https://wa.me/972595706289" target="_blank" rel="noopener">
+            <svg><use href="#i-wa"/></svg>
+            أرسل الطلب عبر واتساب
+          </a>
+          <p class="summary-note">هذا تقدير مبدئي غير ملزم، ويتم تأكيد السعر النهائي بعد توثيق المتطلبات.</p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       WHY US
+       ===================================================== -->
+  <section id="why">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">WHY US</span>
+        <h2 class="title">💎 لماذا تختار <span class="grad-text">TEAM DEVELOPERS؟</span></h2>
+        <p class="sub">نحن نضمن لك الجودة والاحترافية في التسليم</p>
+      </div>
+
+      <div class="why">
+        <div class="why-item reveal" style="--d:0s">
+          <span class="e">👨‍💻</span>
+          <span class="why-text">فريق محترف متخصص يعمل على تنفيذ مشاريعك</span>
+        </div>
+        <div class="why-item reveal" style="--d:.07s">
+          <span class="e">🚫</span>
+          <span class="why-text">نعتمد على الكود النظيف ولا نعتمد على الذكاء الاصطناعي</span>
+        </div>
+        <div class="why-item reveal" style="--d:.14s">
+          <span class="e">⚡</span>
+          <span class="why-text">تنفيذ وسرعة دقيقة حسب المواصفات المطلوبة</span>
+        </div>
+        <div class="why-item reveal" style="--d:.21s">
+          <span class="e">🔧</span>
+          <span class="why-text">صيانة ودعم فني مستمر بعد التسليم</span>
+        </div>
+        <div class="why-item reveal" style="--d:.28s">
+          <span class="e">🔒</span>
+          <span class="why-text">أعلى درجات الأمان والخصوصية لمشروعك</span>
+        </div>
+        <div class="why-item reveal" style="--d:.35s">
+          <span class="e">💰</span>
+          <span class="why-text">أسعار تنافسية مناسبة لجميع الميزانيات</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FAQ
+       ===================================================== -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2 class="title">❓ الأسئلة <span class="grad-text">الشائعة</span></h2>
+        <p class="sub">إجابات سريعة على أكثر ما يسأل عنه عملاؤنا</p>
+      </div>
+
+      <div class="faq-list">
+
+        <div class="faq-item reveal">
+          <button class="faq-q" aria-expanded="false">
+            <span>كيف أطلب مشروعي؟</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>تواصل معنا عبر واتساب على الرقم +972 59-570-6289 أو عبر ديسكورد، أو املأ نموذج الطلب في الموقع وسيصلنا طلبك مباشرة على واتساب.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:.05s">
+          <button class="faq-q" aria-expanded="false">
+            <span>هل الأسعار المذكورة نهائية؟</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>الأسعار المذكورة هي أسعار بداية للخدمات الأساسية، وتتغير بحسب حجم المشروع والميزات المطلوبة. المشاريع الكبيرة والمعقدة تُسعّر بناءً على التفاصيل.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:.1s">
+          <button class="faq-q" aria-expanded="false">
+            <span>هل تعتمدون على الذكاء الاصطناعي في البرمجة؟</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>لا، نعتمد على الكود النظيف الذي يكتبه فريقنا المتخصص، مع الالتزام بالمواصفات المتفق عليها.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:.15s">
+          <button class="faq-q" aria-expanded="false">
+            <span>هل يوجد دعم بعد التسليم؟</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>نعم، نوفر صيانة ودعماً فنياً مستمراً بعد التسليم لضمان عمل مشروعك بشكل سليم.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:.2s">
+          <button class="faq-q" aria-expanded="false">
+            <span>هل أستطيع طلب ميزات مخصصة؟</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>بالتأكيد. كل بوت أو سيرفر أو موقع نبرمجه حسب طلبك، ونوثق جميع المتطلبات بالكامل قبل البدء بالتنفيذ.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:.25s">
+          <button class="faq-q" aria-expanded="false">
+            <span>كم يستغرق تنفيذ المشروع؟</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>يعتمد على حجم المشروع وتعقيده. نحدد المدة المتوقعة معك عند الاتفاق على المتطلبات، ويتوفر خيار التسليم العاجل عند الحاجة.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       NOTES
+       ===================================================== -->
+  <section id="notes">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">IMPORTANT</span>
+        <h2 class="title">📌 ملاحظات <span class="grad-text">هامة</span></h2>
+        <p class="sub">يرجى قراءتها قبل تقديم الطلب</p>
+      </div>
+
+      <div class="notes-box reveal">
+        <ul>
+          <li>الأسعار المذكورة هي أسعار بداية للخدمات الأساسية وتتغير بحسب الحجم.</li>
+          <li>المشاريع الضخمة والمعقدة يتم تسعيرها بناءً على الميزات والتفاصيل المطلوبة.</li>
+          <li>يتم الاتفاق وتوثيق جميع المتطلبات بالكامل قبل البدء في التنفيذ.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       ORDER FORM + CONTACT
+       ===================================================== -->
+  <section id="order">
+    <div class="wrap">
+      <div class="section-header reveal">
+        <span class="eyebrow">ORDER NOW</span>
+        <h2 class="title">📝 اطلب <span class="grad-text">مشروعك الآن</span></h2>
+        <p class="sub">املأ النموذج وسيفتح لك واتساب برسالة جاهزة تصلنا مباشرة</p>
+      </div>
+
+      <div class="order">
+
+        <div class="order-info reveal">
+          <h3>عندك فكرة؟ <span class="grad-text">خلّينا نبدأ.</span></h3>
+          <p>اختر الطريقة الأنسب لك للتواصل معنا، وسنرد عليك بأسرع وقت ممكن.</p>
+
+          <a class="contact-line" data-wa href="https://wa.me/972595706289" target="_blank" rel="noopener">
+            <span class="ci wa-bg"><svg width="24" height="24" fill="#25d366"><use href="#i-wa"/></svg></span>
+            <span>
+              <b>واتساب</b>
+              <small class="num">+972 59-570-6289</small>
+            </span>
+          </a>
+
+          <a class="contact-line" href="https://discord.gg/hFAnJYXrwj" target="_blank" rel="noopener">
+            <span class="ci dc-bg"><svg width="24" height="24" fill="#7983f5"><use href="#i-discord"/></svg></span>
+            <span>
+              <b>Discord</b>
+              <small>انضم إلى سيرفرنا وافتح تذكرة</small>
+            </span>
+          </a>
+
+          <div class="contact-line">
+            <span class="ci tm-bg">📋</span>
+            <span>
+              <b>انسخ رقم الواتساب</b>
+              <small class="num">+972595706289</small>
+            </span>
+            <button class="copy-btn" type="button" id="copy-num">نسخ</button>
+          </div>
+        </div>
+
+        <form class="order-form reveal" id="order-form" novalidate style="--d:.1s">
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="f-name">الاسم</label>
+              <input id="f-name" name="name" type="text" placeholder="اسمك الكريم" autocomplete="name" required>
+              <span class="err">يرجى إدخال اسمك</span>
+            </div>
+
+            <div class="field">
+              <label for="f-service">الخدمة المطلوبة</label>
+              <select id="f-service" name="service" required>
+                <option value="">اختر الخدمة...</option>
+                <option>Discord Development (سيرفر ديسكورد)</option>
+                <option>Discord Bot Development (بوت ديسكورد)</option>
+                <option>Minecraft Development (ماين كرافت)</option>
+                <option>Web Development (موقع ويب)</option>
+                <option>أخرى / لست متأكداً</option>
+              </select>
+              <span class="err">يرجى اختيار الخدمة</span>
+            </div>
+
+            <div class="field">
+              <label for="f-budget">الميزانية التقريبية (اختياري)</label>
+              <select id="f-budget" name="budget">
+                <option value="">غير محددة</option>
+                <option>أقل من $25</option>
+                <option>$25 - $50</option>
+                <option>$50 - $100</option>
+                <option>أكثر من $100</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="f-deadline">موعد التسليم المطلوب (اختياري)</label>
+              <select id="f-deadline" name="deadline">
+                <option value="">مرن</option>
+                <option>خلال 24-48 ساعة (عاجل)</option>
+                <option>خلال أسبوع</option>
+                <option>خلال أسبوعين</option>
+                <option>خلال شهر</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="f-details">تفاصيل المشروع</label>
+              <textarea id="f-details" name="details" placeholder="اشرح لنا فكرتك والميزات التي تريدها بأكبر قدر من التفصيل..." required></textarea>
+              <span class="err">اكتب تفاصيل مشروعك (10 أحرف على الأقل)</span>
+            </div>
+
+          </div>
+
+          <div class="form-foot">
+            <button type="submit" class="btn wa">
+              <svg><use href="#i-wa"/></svg>
+              إرسال الطلب عبر واتساب
+            </button>
+            <small>سيتم فتح واتساب برسالة جاهزة، يمكنك تعديلها قبل الإرسال.</small>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       CTA
+       ===================================================== -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2>🔥 عندك فكرة مشروع؟ إحنا بنحولها لواقع!</h2>
+        <p>📩 للطلب أو الاستفسار، تواصل معنا مباشرة عبر واتساب أو Discord.</p>
+        <div class="cta-actions">
+          <a class="btn wa" data-wa href="https://wa.me/972595706289" target="_blank" rel="noopener">
+            <svg><use href="#i-wa"/></svg>
+            تواصل عبر واتساب
+          </a>
+          <a class="btn discord" href="https://discord.gg/hFAnJYXrwj" target="_blank" rel="noopener">
+            <svg><use href="#i-discord"/></svg>
+            تواصل عبر Discord
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+
+        <div class="foot-brand">
+          <a href="#top" class="logo">
+            <span class="logo-mark">⚡</span>
+            <span>TEAM <span class="grad-text">DEVELOPERS</span></span>
+          </a>
+          <p>نحول أفكارك إلى مشاريع حقيقية. برمجة احترافية للديسكورد، البوتات، ماين كرافت، والمواقع.</p>
+        </div>
+
+        <div class="foot-col">
+          <h5>روابط سريعة</h5>
+          <ul>
+            <li><a href="#services">الخدمات</a></li>
+            <li><a href="#process">آلية العمل</a></li>
+            <li><a href="#calculator">حاسبة السعر</a></li>
+            <li><a href="#faq">الأسئلة الشائعة</a></li>
+          </ul>
+        </div>
+
+        <div class="foot-col">
+          <h5>تواصل معنا</h5>
+          <ul>
+            <li><a data-wa href="https://wa.me/972595706289" target="_blank" rel="noopener">واتساب: <span dir="ltr">+972 59-570-6289</span></a></li>
+            <li><a href="https://discord.gg/hFAnJYXrwj" target="_blank" rel="noopener">سيرفر Discord</a></li>
+            <li><a href="#order">نموذج الطلب</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="foot-bottom">
+        <span>© <span id="year">2026</span> <b>TEAM DEVELOPERS</b> · جميع الحقوق محفوظة</span>
+        <span>YOUR IDEA, OUR CODE. ⚡</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating buttons -->
+  <a class="fab-wa" data-wa href="https://wa.me/972595706289" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+    <svg><use href="#i-wa"/></svg>
+  </a>
+  <button class="fab-top" id="to-top" aria-label="العودة للأعلى">↑</button>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------------------------------------------------
+         0. CONFIG  (عدّل الأسعار والأرقام من هنا بسهولة)
+         --------------------------------------------------- */
+      const CONFIG = {
+        whatsapp: '972595706289',              // +972 59-570-6289
+        whatsappDisplay: '+972 59-570-6289',
+        discord: 'https://discord.gg/hFAnJYXrwj',
+        brand: 'TEAM DEVELOPERS',
+        rushMultiplier: 1.2,                   // زيادة التسليم العاجل 20%
+        typedPhrases: [
+          'مشاريع حقيقية!',
+          'بوتات ذكية!',
+          'سيرفرات احترافية!',
+          'مواقع عصرية!'
+        ]
+      };
+
+      /* بيانات الحاسبة: السعر الأساسي + الإضافات */
+      const SERVICES = {
+        discord: {
+          label: 'Discord Development (سيرفر ديسكورد)',
+          base: 15,
+          addons: [
+            { id: 'tickets',  label: 'نظام تذاكر (Tickets)',        price: 5 },
+            { id: 'protect',  label: 'أنظمة حماية ومنع السبام',      price: 8 },
+            { id: 'welcome',  label: 'نظام ترحيب ورتب تلقائية',      price: 4 },
+            { id: 'roles',    label: 'هيكلة رتب وصلاحيات متقدمة',    price: 6 },
+            { id: 'logs',     label: 'قنوات لوجات ومراقبة',          price: 5 }
+          ]
+        },
+        bot: {
+          label: 'Discord Bot Development (بوت ديسكورد)',
+          base: 20,
+          addons: [
+            { id: 'slash',    label: 'أوامر Slash Commands',         price: 6 },
+            { id: 'mod',      label: 'نظام إدارة وإشراف',            price: 10 },
+            { id: 'economy',  label: 'نظام اقتصاد ومتجر',            price: 15 },
+            { id: 'db',       label: 'ربط قاعدة بيانات',             price: 12 },
+            { id: 'dash',     label: 'لوحة تحكم ويب للبوت',          price: 25 }
+          ]
+        },
+        minecraft: {
+          label: 'Minecraft Development (ماين كرافت)',
+          base: 25,
+          addons: [
+            { id: 'plugin',   label: 'Plugin مخصص',                  price: 20 },
+            { id: 'economy',  label: 'نظام اقتصاد',                  price: 12 },
+            { id: 'perms',    label: 'ضبط LuckPerms متقدم',          price: 6 },
+            { id: 'protect',  label: 'حماية كاملة للسيرفر',          price: 10 },
+            { id: 'minigame', label: 'لعبة مصغرة (Minigame)',        price: 30 }
+          ]
+        },
+        web: {
+          label: 'Web Development (موقع ويب)',
+          base: 40,
+          addons: [
+            { id: 'multi',    label: 'عدة صفحات (Multi-page)',       price: 20 },
+            { id: 'login',    label: 'نظام تسجيل دخول',              price: 20 },
+            { id: 'admin',    label: 'لوحة تحكم إدارية',             price: 35 },
+            { id: 'db',       label: 'قاعدة بيانات',                 price: 25 },
+            { id: 'anim',     label: 'حركات وتأثيرات متقدمة',        price: 10 }
+          ]
+        }
+      };
+
+      /* ---------------------------------------------------
+         1. HELPERS
+         --------------------------------------------------- */
+      const $  = (sel, root = document) => root.querySelector(sel);
+      const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function waLink(text) {
+        const base = 'https://wa.me/' + CONFIG.whatsapp;
+        return text ? base + '?text=' + encodeURIComponent(text) : base;
+      }
+
+      let toastTimer = null;
+      function toast(message) {
+        const el = $('#toast');
+        if (!el) return;
+        el.textContent = message;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+      }
+
+      /* ---------------------------------------------------
+         2. PRELOADER
+         --------------------------------------------------- */
+      function hidePreloader() {
+        const pre = $('#preloader');
+        if (!pre || pre.classList.contains('hide')) return;
+        pre.classList.add('hide');
+        document.body.classList.remove('loading');
+        // ابدأ العدادات بعد ظهور الصفحة
+        setTimeout(runVisibleCounters, 300);
+      }
+
+      window.addEventListener('load', () => setTimeout(hidePreloader, 1300));
+      // احتياط: لو تأخر تحميل الخطوط/الموارد
+      setTimeout(hidePreloader, 3500);
+
+      /* ---------------------------------------------------
+         3. WHATSAPP LINKS
+         --------------------------------------------------- */
+      $$('[data-wa]').forEach((a) => {
+        a.href = waLink('مرحباً ' + CONFIG.brand + ' 👋\nأرغب بالاستفسار عن خدماتكم البرمجية.');
+      });
+
+      $$('[data-wa-service]').forEach((a) => {
+        const service = a.getAttribute('data-wa-service');
+        a.href = waLink(
+          'مرحباً ' + CONFIG.brand + ' 👋\n' +
+          'أرغب بطلب خدمة: ' + service + '\n' +
+          'أرجو التواصل معي لمناقشة التفاصيل.'
+        );
+      });
+
+      /* ---------------------------------------------------
+         4. SCROLL HANDLER (progress, navbar, to-top, spy)
+         --------------------------------------------------- */
+      const navbar   = $('#navbar');
+      const progress = $('#scroll-progress i');
+      const toTop    = $('#to-top');
+      const spyLinks = $$('[data-spy]');
+      const spyMap   = {};
+
+      spyLinks.forEach((a) => {
+        const id = a.getAttribute('data-spy');
+        const target = document.getElementById(id);
+        if (target) spyMap[id] = { link: a, el: target };
+      });
+
+      let ticking = false;
+
+      function onScroll() {
+        const y = window.scrollY || document.documentElement.scrollTop;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? (y / max) * 100 : 0;
+
+        if (progress) progress.style.width = pct + '%';
+        if (navbar) navbar.classList.toggle('scrolled', y > 20);
+        if (toTop) toTop.classList.toggle('show', y > 700);
+
+        // Scroll spy
+        let current = 'top';
+        const probe = y + 140;
+        Object.keys(spyMap).forEach((id) => {
+          const el = spyMap[id].el;
+          if (el.offsetTop <= probe) current = id;
+        });
+        spyLinks.forEach((a) => {
+          a.classList.toggle('active', a.getAttribute('data-spy') === current);
+        });
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', onScroll);
+      onScroll();
+
+      if (toTop) {
+        toTop.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
+      }
+
+      /* ---------------------------------------------------
+         5. MOBILE MENU
+         --------------------------------------------------- */
+      const menuBtn = $('#mobile-menu');
+      const navList = $('#nav-list');
+
+      function setMenu(open) {
+        navList.classList.toggle('active', open);
+        menuBtn.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+
+      menuBtn.addEventListener('click', () => {
+        setMenu(!navList.classList.contains('active'));
+      });
+
+      $$('.nav-links a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setMenu(false);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 820) setMenu(false);
+      });
+
+      /* ---------------------------------------------------
+         6. TYPING EFFECT
+         --------------------------------------------------- */
+      (function typing() {
+        const el = $('#typed');
+        if (!el) return;
+
+        if (reduceMotion) {
+          el.textContent = CONFIG.typedPhrases[0];
+          return;
+        }
+
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+
+        function tick() {
+          const phrase = CONFIG.typedPhrases[phraseIndex];
+
+          if (!deleting) {
+            charIndex++;
+            el.textContent = phrase.slice(0, charIndex);
+            if (charIndex === phrase.length) {
+              deleting = true;
+              return setTimeout(tick, 1800);
+            }
+            return setTimeout(tick, 95);
+          }
+
+          charIndex--;
+          el.textContent = phrase.slice(0, charIndex);
+          if (charIndex === 0) {
+            deleting = false;
+            phraseIndex = (phraseIndex + 1) % CONFIG.typedPhrases.length;
+            return setTimeout(tick, 350);
+          }
+          return setTimeout(tick, 48);
+        }
+
+        setTimeout(tick, 900);
+      })();
+
+      /* ---------------------------------------------------
+         7. COUNTERS
+         --------------------------------------------------- */
+      const counters = $$('[data-count]');
+
+      function animateCounter(el) {
+        if (el.dataset.done) return;
+        el.dataset.done = '1';
+
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        if (reduceMotion) {
+          el.textContent = target;
+          return;
+        }
+
+        const duration = 1600;
+        const start = performance.now();
+
+        function frame(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased);
+          if (t < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function runVisibleCounters() {
+        counters.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) animateCounter(el);
+        });
+      }
+
+      /* ---------------------------------------------------
+         8. REVEAL ON SCROLL
+         --------------------------------------------------- */
+      const revealEls = $$('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealEls.forEach((el) => io.observe(el));
+
+        const cio = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              cio.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+
+        counters.forEach((el) => cio.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add('in'));
+        counters.forEach(animateCounter);
+      }
+
+      /* ---------------------------------------------------
+         9. PARTICLES BACKGROUND
+         --------------------------------------------------- */
+      (function particles() {
+        const canvas = $('#particles');
+        if (!canvas || reduceMotion) return;
+
+        const ctx = canvas.getContext('2d');
+        let w = 0;
+        let h = 0;
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let dots = [];
+        let rafId = null;
+        const mouse = { x: -9999, y: -9999 };
+
+        function resize() {
+          w = window.innerWidth;
+          h = window.innerHeight;
+          canvas.width = w * dpr;
+          canvas.height = h * dpr;
+          canvas.style.width = w + 'px';
+          canvas.style.height = h + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          const count = Math.max(24, Math.min(70, Math.floor((w * h) / 22000)));
+          dots = Array.from({ length: count }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 1.6 + 0.6
+          }));
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, w, h);
+
+          for (let i = 0; i < dots.length; i++) {
+            const a = dots[i];
+            a.x += a.vx;
+            a.y += a.vy;
+
+            if (a.x < 0 || a.x > w) a.vx *= -1;
+            if (a.y < 0 || a.y > h) a.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(160, 175, 255, 0.55)';
+            ctx.fill();
+
+            for (let j = i + 1; j < dots.length; j++) {
+              const b = dots[j];
+              const dx = a.x - b.x;
+              const dy = a.y - b.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 130) {
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = 'rgba(124, 92, 255,' + (0.16 * (1 - dist / 130)) + ')';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+
+            // تفاعل خفيف مع الماوس
+            const mx = a.x - mouse.x;
+            const my = a.y - mouse.y;
+            const md = Math.sqrt(mx * mx + my * my);
+            if (md < 150) {
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = 'rgba(0, 212, 255,' + (0.22 * (1 - md / 150)) + ')';
+              ctx.stroke();
+            }
+          }
+
+          rafId = requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        }, { passive: true });
+
+        window.addEventListener('resize', resize);
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            cancelAnimationFrame(rafId);
+          } else {
+            rafId = requestAnimationFrame(draw);
+          }
+        });
+
+        resize();
+        draw();
+      })();
+
+      /* ---------------------------------------------------
+         10. CURSOR GLOW
+         --------------------------------------------------- */
+      (function cursorGlow() {
+        const glow = $('#cursor-glow');
+        if (!glow || reduceMotion) return;
+        if (window.matchMedia('(hover: none)').matches) return;
+
+        let tx = 0;
+        let ty = 0;
+        let cx = 0;
+        let cy = 0;
+        let running = false;
+
+        function loop() {
+          cx += (tx - cx) * 0.12;
+          cy += (ty - cy) * 0.12;
+          glow.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+          if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) {
+            requestAnimationFrame(loop);
+          } else {
+            running = false;
+          }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+          tx = e.clientX;
+          ty = e.clientY;
+          glow.style.opacity = '1';
+          if (!running) {
+            running = true;
+            requestAnimationFrame(loop);
+          }
+        }, { passive: true });
+
+        document.addEventListener('mouseleave', () => {
+          glow.style.opacity = '0';
+        });
+      })();
+
+      /* ---------------------------------------------------
+         11. CARD TILT + SPOTLIGHT
+         --------------------------------------------------- */
+      (function tilt() {
+        const cards = $$('.card.tilt');
+        const canHover = window.matchMedia('(hover: hover)').matches;
+
+        cards.forEach((card) => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mx', x + 'px');
+            card.style.setProperty('--my', y + 'px');
+
+            if (!canHover || reduceMotion) return;
+
+            const rx = ((y / rect.height) - 0.5) * -8;
+            const ry = ((x / rect.width) - 0.5) * 8;
+            card.style.transform =
+              'perspective(900px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateY(-6px)';
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+          });
+        });
+      })();
+
+      /* ---------------------------------------------------
+         12. FAQ ACCORDION
+         --------------------------------------------------- */
+      $$('.faq-item').forEach((item) => {
+        const btn = $('.faq-q', item);
+        const panel = $('.faq-a', item);
+
+        btn.addEventListener('click', () => {
+          const isOpen = item.classList.contains('open');
+
+          // أغلق الباقي
+          $$('.faq-item.open').forEach((other) => {
+            if (other !== item) {
+              other.classList.remove('open');
+              $('.faq-q', other).setAttribute('aria-expanded', 'false');
+              $('.faq-a', other).style.maxHeight = '0px';
+            }
+          });
+
+          item.classList.toggle('open', !isOpen);
+          btn.setAttribute('aria-expanded', String(!isOpen));
+          panel.style.maxHeight = !isOpen ? panel.scrollHeight + 'px' : '0px';
+        });
+      });
+
+      /* ---------------------------------------------------
+         13. PRICE CALCULATOR
+         --------------------------------------------------- */
+      (function calculator() {
+        const radios      = $$('input[name="svc"]');
+        const addonsBox   = $('#addons');
+        const summaryList = $('#summary-list');
+        const totalEl     = $('#total');
+        const rushEl      = $('#rush');
+        const sendBtn     = $('#calc-send');
+
+        if (!addonsBox || !summaryList || !totalEl) return;
+
+        function currentService() {
+          const checked = radios.find((r) => r.checked);
+          return checked ? checked.value : 'discord';
+        }
+
+        function renderAddons() {
+          const key = currentService();
+          const svc = SERVICES[key];
+
+          addonsBox.innerHTML = '';
+
+          svc.addons.forEach((addon) => {
+            const label = document.createElement('label');
+            label.className = 'addon';
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.value = addon.id;
+            input.dataset.price = addon.price;
+            input.dataset.label = addon.label;
+
+            const text = document.createElement('span');
+            text.textContent = addon.label;
+
+            const price = document.createElement('span');
+            price.className = 'addon-price';
+            price.textContent = '+$' + addon.price;
+
+            label.appendChild(input);
+            label.appendChild(text);
+            label.appendChild(price);
+            addonsBox.appendChild(label);
+
+            input.addEventListener('change', () => {
+              label.classList.toggle('checked', input.checked);
+              update();
+            });
+          });
+        }
+
+        function update() {
+          const key = currentService();
+          const svc = SERVICES[key];
+          const checked = $$('input[type="checkbox"]:checked', addonsBox);
+          const rush = rushEl && rushEl.checked;
+
+          let subtotal = svc.base;
+          const rows = [];
+
+          rows.push(
+            '<div class="summary-row"><span>' + svc.label + '</span><b>$' + svc.base + '</b></div>'
+          );
+
+          checked.forEach((input) => {
+            const price = parseInt(input.dataset.price, 10);
+            subtotal += price;
+            rows.push(
+              '<div class="summary-row"><span>' + input.dataset.label + '</span><b>+$' + price + '</b></div>'
+            );
+          });
+
+          let total = subtotal;
+          if (rush) {
+            total = Math.round(subtotal * CONFIG.rushMultiplier);
+            rows.push(
+              '<div class="summary-row"><span>⚡ تسليم عاجل (+20%)</span><b>+$' + (total - subtotal) + '</b></div>'
+            );
+          }
+
+          summaryList.innerHTML = rows.join('');
+          totalEl.textContent = '$' + total;
+
+          // رسالة واتساب جاهزة
+          const lines = [
+            'مرحباً ' + CONFIG.brand + ' 👋',
+            'أرغب بطلب مشروع، وهذا ملخص التقدير من الموقع:',
+            '',
+            '• الخدمة: ' + svc.label
+          ];
+
+          if (checked.length) {
+            lines.push('• الميزات:');
+            checked.forEach((input) => lines.push('   - ' + input.dataset.label));
+          }
+
+          if (rush) lines.push('• التسليم: عاجل ⚡');
+          lines.push('• التقدير المبدئي: $' + total);
+          lines.push('', 'أرجو التواصل معي لتأكيد التفاصيل والسعر النهائي.');
+
+          if (sendBtn) sendBtn.href = waLink(lines.join('\n'));
+        }
+
+        radios.forEach((r) => {
+          r.addEventListener('change', () => {
+            renderAddons();
+            update();
+          });
+        });
+
+        if (rushEl) rushEl.addEventListener('change', update);
+
+        // أزرار "احسب السعر" في بطاقات الخدمات
+        $$('[data-pick]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const value = btn.getAttribute('data-pick');
+            const radio = radios.find((r) => r.value === value);
+            if (radio) {
+              radio.checked = true;
+              renderAddons();
+              update();
+            }
+          });
+        });
+
+        renderAddons();
+        update();
+      })();
+
+      /* ---------------------------------------------------
+         14. ORDER FORM -> WHATSAPP
+         --------------------------------------------------- */
+      (function orderForm() {
+        const form = $('#order-form');
+        if (!form) return;
+
+        const fields = {
+          name: $('#f-name'),
+          service: $('#f-service'),
+          budget: $('#f-budget'),
+          deadline: $('#f-deadline'),
+          details: $('#f-details')
+        };
+
+        function setInvalid(input, bad) {
+          const wrap = input.closest('.field');
+          if (wrap) wrap.classList.toggle('invalid', bad);
+        }
+
+        function validate() {
+          let ok = true;
+
+          const nameBad = fields.name.value.trim().length < 2;
+          const serviceBad = !fields.service.value;
+          const detailsBad = fields.details.value.trim().length < 10;
+
+          setInvalid(fields.name, nameBad);
+          setInvalid(fields.service, serviceBad);
+          setInvalid(fields.details, detailsBad);
+
+          if (nameBad || serviceBad || detailsBad) ok = false;
+          return ok;
+        }
+
+        // إزالة الخطأ أثناء الكتابة
+        ['name', 'service', 'details'].forEach((key) => {
+          const evt = key === 'service' ? 'change' : 'input';
+          fields[key].addEventListener(evt, () => setInvalid(fields[key], false));
+        });
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          if (!validate()) {
+            toast('يرجى إكمال الحقول المطلوبة ⚠️');
+            const firstBad = $('.field.invalid input, .field.invalid select, .field.invalid textarea', form);
+            if (firstBad) firstBad.focus();
+            return;
+          }
+
+          const lines = [
+            'مرحباً ' + CONFIG.brand + ' 👋',
+            'لدي طلب مشروع جديد:',
+            '',
+            '👤 الاسم: ' + fields.name.value.trim(),
+            '🛠️ الخدمة: ' + fields.service.value
+          ];
+
+          if (fields.budget.value) lines.push('💰 الميزانية: ' + fields.budget.value);
+          if (fields.deadline.value) lines.push('⏱️ الموعد: ' + fields.deadline.value);
+
+          lines.push('', '📝 التفاصيل:', fields.details.value.trim());
+
+          const url = waLink(lines.join('\n'));
+          window.open(url, '_blank', 'noopener');
+          toast('تم فتح واتساب ✅ أكمل الإرسال من هناك');
+        });
+      })();
+
+      /* ---------------------------------------------------
+         15. COPY NUMBER
+         --------------------------------------------------- */
+      (function copyNumber() {
+        const btn = $('#copy-num');
+        if (!btn) return;
+
+        btn.addEventListener('click', async () => {
+          const number = '+' + CONFIG.whatsapp;
+
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(number);
+            } else {
+              const tmp = document.createElement('input');
+              tmp.value = number;
+              document.body.appendChild(tmp);
+              tmp.select();
+              document.execCommand('copy');
+              tmp.remove();
+            }
+            toast('تم نسخ الرقم 📋 ' + CONFIG.whatsappDisplay);
+          } catch (err) {
+            toast('تعذر النسخ، الرقم: ' + CONFIG.whatsappDisplay);
+          }
+        });
+      })();
+
+      /* ---------------------------------------------------
+         16. MISC
+         --------------------------------------------------- */
+      const yearEl = $('#year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    })();
+  </script>
+</body>
+</html>
